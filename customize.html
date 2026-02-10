@@ -15,6 +15,12 @@
             background: #FFF;
             margin-bottom: var(--spacing-md);
             cursor: pointer;
+            transition: var(--transition-premium);
+        }
+
+        .upload-area:hover {
+            border-color: var(--amber-gold);
+            background: #FFFCF5;
         }
 
         #loading-overlay {
@@ -30,6 +36,11 @@
             align-items: center;
             justify-content: center;
             text-align: center;
+        }
+
+        /* Linspace Sampling Waveform Bars */
+        .wave-bar {
+            animation: linspace-motion 1.8s infinite ease-in-out;
         }
     </style>
 </head>
@@ -54,7 +65,7 @@
                 </div>
 
                 <div class="mb-lg">
-                    <p class="text-sm mb-sm">刺繍する文字（最大12文字） <span class="text-xs">Embroidery Text</span></p>
+                    <p class="text-sm mb-sm">刺繍する文字（最大10文字 / 未入力可） <span class="text-xs">Embroidery Text</span></p>
                     <input type="text" id="emb-text" placeholder="NAME / DATE"
                         style="width: 100%; padding: 16px; border-radius: 8px; border: 1px solid #EEE; font-family: var(--font-serif); letter-spacing: 0.1em; text-transform: uppercase;">
                     <p class="text-xs mt-sm" style="color: #999;">※半角英数字大文字、ドット(.)、ハイフン(-)、アンダースコア(_)のみ入力可能です。</p>
@@ -71,15 +82,10 @@
         </div>
     </main>
 
-    <!-- LOADING OVERLAY -->
+    <!-- LOADING OVERLAY with Linspace Sampling Motif -->
     <div id="loading-overlay">
-        <div class="waveform-container mb-lg">
-            <div class="wave-bar" style="animation-delay: 0.1s; height: 30px;"></div>
-            <div class="wave-bar" style="animation-delay: 0.2s; height: 50px;"></div>
-            <div class="wave-bar" style="animation-delay: 0.3s; height: 80px;"></div>
-            <div class="wave-bar" style="animation-delay: 0.4s; height: 60px;"></div>
-            <div class="wave-bar" style="animation-delay: 0.5s; height: 40px;"></div>
-            <div class="wave-bar" style="animation-delay: 0.6s; height: 70px;"></div>
+        <div class="waveform-container mb-lg" id="waveform-animation">
+            <!-- Bars will be injected by JS for precise delay control -->
         </div>
         <h2 class="serif-font">音を解析しています...</h2>
         <p class="text-sm mt-lg">AIが感情とピッチを抽出し、<br>最適な波形を描いています。</p>
@@ -90,45 +96,50 @@
         const input = document.getElementById('emb-text');
         let isComposing = false;
 
-        input.addEventListener('compositionstart', () => {
-            isComposing = true;
-        });
-
+        input.addEventListener('compositionstart', () => { isComposing = true; });
         input.addEventListener('compositionend', (e) => {
             isComposing = false;
             validateAndSanitize(e.target);
         });
-
         input.addEventListener('input', (e) => {
-            if (!isComposing) {
-                validateAndSanitize(e.target);
-            }
+            if (!isComposing) { validateAndSanitize(e.target); }
         });
 
         function validateAndSanitize(el) {
             let val = el.value.toUpperCase();
-            // Allow only A-Z, 0-9, ., -, _
             val = val.replace(/[^A-Z0-9.\-_]/g, '');
-            if (val.length > 12) val = val.substring(0, 12);
+            if (val.length > 10) val = val.substring(0, 10); // Limit to 10
             el.value = val;
         }
 
+        // Inject Waveform Bars for "Linspace Sampling" effect
+        const waveContainer = document.getElementById('waveform-animation');
+        const barCount = 40;
+        for (let i = 0; i < barCount; i++) {
+            const bar = document.createElement('div');
+            bar.className = 'wave-bar';
+            // Sinusoidal stagger for delays
+            const delay = Math.sin(i / 5) * 0.5;
+            bar.style.animationDelay = `${delay}s`;
+            waveContainer.appendChild(bar);
+        }
+
         function simulateUpload() {
-            document.getElementById('upload-zone').style.borderColor = 'var(--amber-gold)';
-            document.getElementById('upload-zone').style.backgroundColor = '#FFFCF5';
-            document.getElementById('upload-zone').innerHTML = '<h3>✓ 音声を読み込みました</h3><p class="text-sm">解析の準備が整いました</p>';
+            const zone = document.getElementById('upload-zone');
+            zone.style.borderColor = 'var(--amber-gold)';
+            zone.style.backgroundColor = '#FFFCF5';
+            zone.innerHTML = '<h3>✓ 音声を読み込みました</h3><p class="text-sm">解析の準備が整いました</p>';
             window.audioCaptured = true;
         }
 
         function startAnalysis() {
             if (!window.audioCaptured) { alert('音声を先に入力してください'); return; }
-            if (!input.value) { alert('刺繍する文字を入力してください'); return; }
+            // Now allows empty input (input.value can be "")
 
             document.getElementById('loading-overlay').style.display = 'flex';
 
-            // Generate mock result data
             const resultData = {
-                text: input.value,
+                text: input.value, // Can be empty
                 waveId: Math.floor(Math.random() * 1000),
                 threadColor: ['Amber Gold', 'Air Blue', 'Dusty Rose'][Math.floor(Math.random() * 3)]
             };
@@ -136,7 +147,7 @@
 
             setTimeout(() => {
                 window.location.href = './result.html';
-            }, 3000);
+            }, 3500);
         }
     </script>
 </body>
