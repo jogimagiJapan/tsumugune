@@ -127,14 +127,14 @@
                 const points = [];
                 const segments = 20;
                 const width = 400;
-                const baseY = 80; // Overlap for more intensity
-                const amplitude = 35 + Math.sin(frame * 0.08 + idx) * 20;
+                const baseY = 80 + (idx - 1) * 12; // Slight offset for organized elegance
+                const amplitude = 12 + Math.sin(frame * 0.04 + idx) * 6;
 
                 for (let i = 0; i <= segments; i++) {
                     const x = (width / segments) * i;
-                    // Create significantly larger jagged noise
-                    const noise = (Math.random() - 0.5) * amplitude * 1.8;
-                    const y = baseY + Math.sin(frame * 0.15 + i * 0.8 + idx) * (amplitude / 1.5) + noise;
+                    // Tame the jagged noise for an "elegant" feel
+                    const noise = (Math.random() - 0.5) * amplitude * 0.5;
+                    const y = baseY + Math.sin(frame * 0.06 + i * 0.3 + idx) * (amplitude / 2) + noise;
                     points.push(`${x},${y}`);
                 }
                 path.setAttribute('d', `M${points.join(' L')}`);
