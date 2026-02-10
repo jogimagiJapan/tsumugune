@@ -4,53 +4,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>音を解析する | tsumugune</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
-        .upload-area {
-            border: 1px dashed #DDD;
-            border-radius: var(--radius);
-            padding: var(--spacing-lg);
-            text-align: center;
-            background: #FFF;
-            /* Hover removed as requested */
-            margin-bottom: var(--spacing-md);
-        }
-
-        #loading-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: var(--bg-color);
-            z-index: 1000;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-    </style>
+    <title>音を波形に変換する | つむぐね</title>
+    <link rel="stylesheet" href="./style.css">
 </head>
 
 <body>
     <header>
         <div class="container nav">
-            <a href="index.html" class="logo">tsumugune</a>
+            <a href="./index.html" class="logo">つむぐね</a>
         </div>
     </header>
 
     <main class="container section">
         <div style="max-width: 700px; margin: 0 auto;">
             <p class="brand-accent text-center">Step 02: Transformation</p>
-            <h1 class="text-center mb-lg">音を解析へ。 <span class="text-xs">Analysis</span></h1>
+            <h1 class="text-center mb-lg">音を波形に変換する</h1>
 
             <div class="card">
-                <div class="upload-area" id="upload-zone" onclick="simulateUpload()">
+                <div id="upload-zone"
+                    style="border: 1px dashed #DDD; border-radius: var(--radius); padding: var(--spacing-lg); text-align: center; background: #FFF; margin-bottom: var(--spacing-md); cursor: pointer;"
+                    onclick="simulateUpload()">
                     <div style="font-size: 3rem; margin-bottom: var(--spacing-sm);">🎤</div>
                     <h3 class="serif-font">音声を入力してください</h3>
-                    <p class="text-sm">あなたの声を、波形のアートへ変換します</p>
+                    <p class="text-sm">声から波形と配色をAIが生成します</p>
                 </div>
 
                 <div class="mb-lg">
@@ -72,7 +48,8 @@
     </main>
 
     <!-- LOADING OVERLAY -->
-    <div id="loading-overlay">
+    <div id="loading-overlay"
+        style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-color); z-index: 1000; flex-direction: column; align-items: center; justify-content: center; text-align: center;">
         <div class="waveform-container mb-lg">
             <div class="wave-bar" style="animation-delay: 0.1s; height: 30px;"></div>
             <div class="wave-bar" style="animation-delay: 0.2s; height: 50px;"></div>
@@ -85,43 +62,34 @@
         <p class="text-sm mt-lg">AIが感情とピッチを抽出し、<br>最適な波形を描いています。</p>
     </div>
 
-    <script src="script.js"></script>
+    <script src="./script.js"></script>
     <script>
         const input = document.getElementById('emb-text');
-
-        // Strong validation & sanitization
         input.addEventListener('input', (e) => {
-            let val = e.target.value.toUpperCase();
-            // Allow only A-Z, 0-9, ., -, _
-            val = val.replace(/[^A-Z0-9.\-_]/g, '');
+            let val = e.target.value.toUpperCase().replace(/[^A-Z0-9.\-_]/g, '');
             if (val.length > 12) val = val.substring(0, 12);
             e.target.value = val;
         });
 
         function simulateUpload() {
-            document.getElementById('upload-zone').style.borderColor = 'var(--amber-gold)';
-            document.getElementById('upload-zone').style.backgroundColor = '#FFFCF5';
-            document.getElementById('upload-zone').innerHTML = '<h3>✓ 音声を読み込みました</h3><p class="text-sm">解析の準備が整いました</p>';
+            const zone = document.getElementById('upload-zone');
+            zone.style.borderColor = 'var(--amber-gold)';
+            zone.style.backgroundColor = '#FFFCF5';
+            zone.innerHTML = '<h3>✓ 音声を読み込みました</h3><p class="text-sm">解析の準備が整いました</p>';
             window.audioCaptured = true;
         }
 
         function startAnalysis() {
             if (!window.audioCaptured) { alert('音声を先に入力してください'); return; }
             if (!input.value) { alert('刺繍する文字を入力してください'); return; }
-
             document.getElementById('loading-overlay').style.display = 'flex';
-
-            // Generate mock result data
             const resultData = {
                 text: input.value,
                 waveId: Math.floor(Math.random() * 1000),
                 threadColor: ['Amber Gold', 'Air Blue', 'Dusty Rose'][Math.floor(Math.random() * 3)]
             };
             localStorage.setItem('resultData', JSON.stringify(resultData));
-
-            setTimeout(() => {
-                window.location.href = 'result.html';
-            }, 3000);
+            setTimeout(() => { window.location.href = './result.html'; }, 3000);
         }
     </script>
 </body>

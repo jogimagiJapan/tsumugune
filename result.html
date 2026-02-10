@@ -4,24 +4,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>生成完了 | tsumugune</title>
-    <link rel="stylesheet" href="style.css">
+    <title>生成完了 | つむぐね</title>
+    <link rel="stylesheet" href="./style.css">
 </head>
 
 <body>
     <header>
         <div class="container nav">
-            <a href="index.html" class="logo">tsumugune</a>
+            <a href="./index.html" class="logo">つむぐね</a>
         </div>
     </header>
 
     <main class="container section">
         <div style="max-width: 800px; margin: 0 auto;">
             <p class="brand-accent text-center">Your Masterpiece</p>
-            <h1 class="text-center mb-lg">生成された作品 <span class="text-xs">Final Result</span></h1>
+            <h1 class="text-center mb-lg">生成された作品</h1>
 
-            <div class="product-grid"
-                style="display: grid; grid-template-columns: 1.2fr 1fr; gap: var(--spacing-lg); align-items: stretch;">
+            <div style="display: grid; grid-template-columns: 1.2fr 1fr; gap: var(--spacing-lg); align-items: stretch;"
+                id="res-grid">
+                <style>
+                    @media (max-width: 768px) {
+                        #res-grid {
+                            grid-template-columns: 1fr !important;
+                        }
+                    }
+                </style>
                 <!-- Result Visual -->
                 <div class="card" style="padding: 0; overflow: hidden; display: flex; flex-direction: column;">
                     <div id="final-visual"
@@ -72,7 +79,7 @@
             </div>
 
             <div class="text-center mt-lg">
-                <a href="index.html" class="text-sm"
+                <a href="./index.html" class="text-sm"
                     style="text-decoration: none; border-bottom: 1px solid var(--text-muted);">注文をキャンセルして戻る</a>
             </div>
         </div>
@@ -82,35 +89,21 @@
         window.addEventListener('load', () => {
             const item = JSON.parse(localStorage.getItem('selectedItem'));
             const result = JSON.parse(localStorage.getItem('resultData'));
-
-            if (!item || !result) {
-                window.location.href = 'index.html';
-                return;
-            }
-
+            if (!item || !result) { window.location.href = './index.html'; return; }
             document.getElementById('display-text').innerText = result.text;
             document.getElementById('summary-item').innerText = `商品: ${item.name}`;
             document.getElementById('summary-size').innerText = `サイズ: ${item.size}`;
             document.getElementById('summary-color').innerText = `本体色: ${item.color}`;
             document.getElementById('summary-thread').innerText = `糸の色: AI選定 (${result.threadColor})`;
             document.getElementById('summary-price').innerText = item.price;
-
-            // Set thread color visual
             const bars = document.querySelectorAll('.wave-bar');
-            const colorMap = {
-                'Amber Gold': '#D4AF37',
-                'Air Blue': '#D1E5F4',
-                'Dusty Rose': '#E8D5D5'
-            };
-            bars.forEach(bar => {
-                bar.style.backgroundColor = colorMap[result.threadColor] || '#D4AF37';
-            });
+            const colorMap = { 'Amber Gold': '#D4AF37', 'Air Blue': '#D1E5F4', 'Dusty Rose': '#E8D5D5' };
+            bars.forEach(bar => { bar.style.backgroundColor = colorMap[result.threadColor] || '#D4AF37'; });
         });
-
         function checkout() {
             alert('ありがとうございます。注文が完了しました。');
             localStorage.clear();
-            window.location.href = 'index.html';
+            window.location.href = './index.html';
         }
     </script>
 </body>
