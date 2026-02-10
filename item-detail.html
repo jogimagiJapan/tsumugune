@@ -67,10 +67,14 @@
             font-weight: 500;
         }
 
+        .color-picker-wrapper {
+            margin-top: var(--spacing-sm);
+        }
+
         .color-picker {
             display: flex;
             gap: 12px;
-            margin-top: var(--spacing-sm);
+            margin-bottom: 8px;
         }
 
         .color-btn {
@@ -86,6 +90,12 @@
         .color-btn.active {
             border-color: var(--text-main);
             transform: scale(1.1);
+        }
+
+        #selected-color-name {
+            font-size: 0.8rem;
+            color: var(--text-main);
+            font-weight: 500;
         }
 
         .size-picker {
@@ -144,9 +154,12 @@
                     ¥0,000</p>
 
                 <div class="mb-lg">
-                    <p class="text-sm mb-sm">カラーを選択 <span class="text-xs">Color</span></p>
-                    <div class="color-picker" id="color-picker">
-                        <!-- Colors will be injected by JS -->
+                    <p class="text-sm">カラーを選択 <span class="text-xs">Color</span></p>
+                    <div class="color-picker-wrapper">
+                        <div class="color-picker" id="color-picker">
+                            <!-- Colors will be injected by JS -->
+                        </div>
+                        <div id="selected-color-name"></div>
                     </div>
                 </div>
 
@@ -232,7 +245,8 @@
         };
 
         const data = itemData[itemType];
-        document.getElementById('product-name').innerHTML = `${data.name} <span class="text-xs" style="font-weight:300;">${data.engName}</span>`;
+        const productNameElement = document.getElementById('product-name');
+        productNameElement.innerHTML = `${data.name} <span class="text-xs" style="font-weight:300;">${data.engName}</span>`;
         document.getElementById('product-price').innerText = data.price;
         document.getElementById('product-desc').innerText = data.desc;
 
@@ -265,14 +279,17 @@
         document.getElementById('next-btn').onclick = () => goToSlide(currentSlide + 1);
 
         const colorPicker = document.getElementById('color-picker');
+        const colorNameDisplay = document.getElementById('selected-color-name');
         data.colors.forEach((c, i) => {
             const btn = document.createElement('div');
             btn.className = `color-btn ${i === 0 ? 'active' : ''}`;
             btn.style.backgroundColor = c.code;
-            btn.title = c.name;
+            btn.dataset.name = c.name;
+            if (i === 0) colorNameDisplay.innerText = c.name;
             btn.onclick = () => {
                 document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
+                colorNameDisplay.innerText = c.name;
             };
             colorPicker.appendChild(btn);
         });
@@ -307,7 +324,7 @@
         specsContainer.innerHTML = specsHtml;
 
         function proceedToCustomize() {
-            const selectedColor = document.querySelector('.color-btn.active').title;
+            const selectedColor = document.querySelector('.color-btn.active').dataset.name;
             const selectedSize = document.querySelector('.size-btn.active') ? document.querySelector('.size-btn.active').innerText : 'F';
             localStorage.setItem('selectedItem', JSON.stringify({
                 type: itemType, name: data.name.replace(/<[^>]*>?/gm, ''), price: data.price, color: selectedColor, size: selectedSize

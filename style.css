@@ -22,7 +22,8 @@
     --spacing-xl: 128px;
 
     /* Responsive Space */
-    --container-px: 32px;
+    --container-px: 24px;
+    /* Fixed to 24px for better mobile margin */
 
     /* Visual Effects */
     --radius: 16px;
