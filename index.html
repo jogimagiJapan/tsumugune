@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tsumugune | 音を刺繍に</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <div class="container nav">
+            <a href="index.html" class="logo">tsumugune</a>
+            <nav class="nav-links">
+                <a href="#concept">Concept</a>
+                <a href="#items">Items</a>
+                <a href="#about">About</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="section">
+            <div class="container text-center">
+                <p class="brand-accent mb-lg">Art & Technology</p>
+                <h1 style="font-size: 3.5rem; line-height: 1.2; margin-bottom: var(--spacing-md);">その瞬間の音を、<br>目に見て触れるカタチに。</h1>
+                <p class="text-sm" style="max-width: 600px; margin: 0 auto;">
+                    音を録り、その場で波形に変換し、刺繍として刻み込む。<br>
+                    視覚・触覚・聴覚のすべてで感じられる“世界に一つだけの音の作品”。<br>
+                    あなただけのカタチで生み出す。
+                </p>
+                <div class="mt-lg">
+                    <a href="#items" class="btn btn-primary">アイテムを見る</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Product Section -->
+        <section id="items" class="section" style="background-color: #F8F8F6;">
+            <div class="container">
+                <h2 class="text-center mb-lg">Collection</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--spacing-md);">
+                    <!-- Item 1 -->
+                    <div class="card">
+                        <div style="aspect-ratio: 1; background: var(--bg-color); border-radius: 12px; margin-bottom: var(--spacing-sm); display: flex; align-items: center; justify-content: center;">
+                            <span class="serif-italic" style="color: var(--text-muted);">T-shirt</span>
+                        </div>
+                        <h3 style="margin-bottom: 4px;">Tシャツ</h3>
+                        <p class="brand-accent" style="font-size: 1.2rem;">¥6,000</p>
+                        <p class="text-sm mb-lg">日常に溶け込む、音の記憶。</p>
+                        <a href="item-detail.html?item=tshirt" class="btn btn-outline" style="width: 100%; text-align: center; border-radius: 8px; padding: 12px;">詳細を見る</a>
+                    </div>
+                    <!-- Item 2 -->
+                    <div class="card">
+                        <div style="aspect-ratio: 1; background: var(--dusty-rose); border-radius: 12px; margin-bottom: var(--spacing-sm); display: flex; align-items: center; justify-content: center;">
+                            <span class="serif-italic" style="color: var(--text-muted);">Bib</span>
+                        </div>
+                        <h3 style="margin-bottom: 4px;">ビブ</h3>
+                        <p class="brand-accent" style="font-size: 1.2rem;">¥5,000</p>
+                        <p class="text-sm mb-lg">産声さえも、宝物に。</p>
+                        <a href="item-detail.html?item=bib" class="btn btn-outline" style="width: 100%; text-align: center; border-radius: 8px; padding: 12px;">詳細を見る</a>
+                    </div>
+                    <!-- Item 3 -->
+                    <div class="card">
+                        <div style="aspect-ratio: 1; background: var(--air-blue); border-radius: 12px; margin-bottom: var(--spacing-sm); display: flex; align-items: center; justify-content: center;">
+                            <span class="serif-italic" style="color: var(--text-muted);">Pouch</span>
+                        </div>
+                        <h3 style="margin-bottom: 4px;">ジッパーポーチ</h3>
+                        <p class="brand-accent" style="font-size: 1.2rem;">¥5,000</p>
+                        <p class="text-sm mb-lg">大切なものを守る、音の守護。</p>
+                        <a href="item-detail.html?item=pouch" class="btn btn-outline" style="width: 100%; text-align: center; border-radius: 8px; padding: 12px;">詳細を見る</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="section text-center">
+        <p class="logo mb-lg">tsumugune</p>
+        <p class="text-sm">© 2025 tsumugune All Rights Reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

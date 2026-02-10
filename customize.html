@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customize Your Sound | tsumugune</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .upload-area {
+            border: 1px dashed #DDD;
+            border-radius: var(--radius);
+            padding: var(--spacing-lg);
+            text-align: center;
+            background: #FFF;
+            transition: var(--transition);
+            cursor: pointer;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .upload-area:hover {
+            border-color: var(--amber-gold);
+            background: #FFFCF5;
+        }
+
+        #loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-color);
+            z-index: 1000;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container nav">
+            <a href="index.html" class="logo">tsumugune</a>
+        </div>
+    </header>
+
+    <main class="container section">
+        <div style="max-width: 700px; margin: 0 auto;">
+            <p class="brand-accent text-center">Step 02: Transformation</p>
+            <h1 class="text-center mb-lg">音を解析へ。</h1>
+
+            <div class="card">
+                <div class="upload-area" id="upload-zone" onclick="simulateUpload()">
+                    <div style="font-size: 3rem; margin-bottom: var(--spacing-sm);">🎤</div>
+                    <h3 class="serif-italic">Tap to record or Upload Audio</h3>
+                    <p class="text-sm">あなたの声を、波形のアートへ変換します</p>
+                </div>
+
+                <div class="mb-lg">
+                    <p class="text-sm mb-sm">Embroidery Text (Max 12 chars)</p>
+                    <input type="text" id="emb-text" placeholder="NAME / DATE / CASE"
+                        style="width: 100%; padding: 16px; border-radius: 8px; border: 1px solid #EEE; font-family: var(--font-serif); font-style: italic; letter-spacing: 0.1em;">
+                </div>
+
+                <p class="text-sm mb-lg" style="color: var(--amber-gold); text-align: center;">
+                    ※どの色の糸で届くかは、生成までのお楽しみです。
+                </p>
+
+                <button onclick="startAnalysis()" class="btn btn-primary" style="width: 100%;"
+                    id="generate-btn">生成を開始する</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- DRAMATIC LOADING OVERLAY -->
+    <div id="loading-overlay">
+        <div class="waveform-container mb-lg">
+            <div class="wave-bar" style="animation-delay: 0.1s; height: 30px;"></div>
+            <div class="wave-bar" style="animation-delay: 0.2s; height: 50px;"></div>
+            <div class="wave-bar" style="animation-delay: 0.3s; height: 80px;"></div>
+            <div class="wave-bar" style="animation-delay: 0.4s; height: 60px;"></div>
+            <div class="wave-bar" style="animation-delay: 0.5s; height: 40px;"></div>
+            <div class="wave-bar" style="animation-delay: 0.6s; height: 70px;"></div>
+        </div>
+        <h2 class="serif-italic">音を解析しています...</h2>
+        <p class="text-sm mt-lg">AIが感情とピッチを抽出し、<br>最適な波形を描いています。</p>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        function simulateUpload() {
+            document.getElementById('upload-zone').style.borderColor = 'var(--amber-gold)';
+            document.getElementById('upload-zone').innerHTML = '<h3>✓ Audio Captured</h3><p class="text-sm">Ready for analysis</p>';
+        }
+
+        function startAnalysis() {
+            const text = document.getElementById('emb-text').value;
+            if (!text) { alert('刺繍する文字を入力してください'); return; }
+
+            document.getElementById('loading-overlay').style.display = 'flex';
+
+            // Generate mock result data
+            const resultData = {
+                text: text,
+                waveId: Math.floor(Math.random() * 1000),
+                threadColor: ['Amber Gold', 'Air Blue', 'Dusty Rose'][Math.floor(Math.random() * 3)]
+            };
+            localStorage.setItem('resultData', JSON.stringify(resultData));
+
+            setTimeout(() => {
+                window.location.href = 'result.html';
+            }, 3500); // 3.5s drama pause
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Final Result | tsumugune</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <div class="container nav">
+            <a href="index.html" class="logo">tsumugune</a>
+        </div>
+    </header>
+
+    <main class="container section">
+        <div style="max-width: 800px; margin: 0 auto;">
+            <p class="brand-accent text-center">Your Masterpiece</p>
+            <h1 class="text-center mb-lg">生成された作品</h1>
+
+            <div class="product-grid"
+                style="display: grid; grid-template-columns: 1.2fr 1fr; gap: var(--spacing-lg); align-items: stretch;">
+                <!-- Result Visual -->
+                <div class="card" style="padding: 0; overflow: hidden; display: flex; flex-direction: column;">
+                    <div id="final-visual"
+                        style="flex-grow: 1; background: #FFF; aspect-ratio: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative;">
+                        <!-- Waveform Mockup -->
+                        <div class="waveform-container" style="margin-bottom: var(--spacing-md);">
+                            <div class="wave-bar" style="height: 40px; animation: none;"></div>
+                            <div class="wave-bar" style="height: 60px; animation: none;"></div>
+                            <div class="wave-bar" style="height: 30px; animation: none;"></div>
+                            <div class="wave-bar" style="height: 80px; animation: none;"></div>
+                            <div class="wave-bar" style="height: 50px; animation: none;"></div>
+                        </div>
+                        <p id="display-text" class="serif-italic" style="font-size: 1.8rem; letter-spacing: 0.2em;"></p>
+                    </div>
+                </div>
+
+                <!-- Order Sidebar -->
+                <div class="card" style="background: var(--bg-color);">
+                    <h3 class="serif-italic mb-sm">Order Summary</h3>
+                    <div
+                        style="border-bottom: 1px solid #EEE; padding-bottom: var(--spacing-sm); margin-bottom: var(--spacing-md);">
+                        <p class="text-sm" id="summary-item">Item: Loading...</p>
+                        <p class="text-sm" id="summary-color">Base Color: Loading...</p>
+                        <p class="text-sm" id="summary-thread" style="color: var(--amber-gold);">Thread Color:
+                            Loading...</p>
+                    </div>
+
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-lg);">
+                        <span class="text-sm">Total Amount</span>
+                        <span id="summary-price" class="serif-italic" style="font-size: 1.5rem;">¥0,000</span>
+                    </div>
+
+                    <h3 class="serif-italic mb-sm" style="font-size: 1rem;">Shipping Information</h3>
+                    <input type="text" placeholder="Full Name"
+                        style="width: 100%; padding: 12px; margin-bottom: 8px; border: 1px solid #EEE; border-radius: 8px;">
+                    <input type="text" placeholder="Postal Code"
+                        style="width: 100%; padding: 12px; margin-bottom: 8px; border: 1px solid #EEE; border-radius: 8px;">
+                    <textarea placeholder="Address" rows="3"
+                        style="width: 100%; padding: 12px; margin-bottom: var(--spacing-md); border: 1px solid #EEE; border-radius: 8px;"></textarea>
+
+                    <button onclick="checkout()" class="btn btn-primary" style="width: 100%;">購入を確定する</button>
+                    <p class="text-center mt-sm" style="font-size: 0.7rem; color: var(--text-muted);">
+                        ※個別会計のため、カート機能はございません。
+                    </p>
+                </div>
+            </div>
+
+            <div class="text-center mt-lg">
+                <a href="index.html" class="text-sm"
+                    style="text-decoration: none; border-bottom: 1px solid var(--text-muted);">注文をキャンセルして戻る</a>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        window.addEventListener('load', () => {
+            const item = JSON.parse(localStorage.getItem('selectedItem'));
+            const result = JSON.parse(localStorage.getItem('resultData'));
+
+            if (!item || !result) {
+                window.location.href = 'index.html';
+                return;
+            }
+
+            document.getElementById('display-text').innerText = result.text;
+            document.getElementById('summary-item').innerText = `Item: ${item.name}`;
+            document.getElementById('summary-color').innerText = `Base Color: ${item.color}`;
+            document.getElementById('summary-thread').innerText = `Thread Color: ${result.threadColor}`;
+            document.getElementById('summary-price').innerText = item.price;
+
+            // Set thread color visual
+            const bars = document.querySelectorAll('.wave-bar');
+            const colorMap = {
+                'Amber Gold': '#D4AF37',
+                'Air Blue': '#D1E5F4',
+                'Dusty Rose': '#E8D5D5'
+            };
+            bars.forEach(bar => {
+                bar.style.backgroundColor = colorMap[result.threadColor] || '#D4AF37';
+            });
+        });
+
+        function checkout() {
+            alert('ありがとうございます。注文が完了しました。');
+            localStorage.clear();
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+
+</html>

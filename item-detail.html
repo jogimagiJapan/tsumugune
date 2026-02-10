@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item Detail | tsumugune</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .product-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-lg);
+            align-items: start;
+        }
+
+        @media (max-width: 768px) {
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .color-picker {
+            display: flex;
+            gap: 12px;
+            margin-top: var(--spacing-sm);
+        }
+
+        .color-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: var(--transition);
+        }
+
+        .color-btn.active {
+            border-color: var(--text-main);
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container nav">
+            <a href="index.html" class="logo">tsumugune</a>
+            <nav class="nav-links">
+                <a href="index.html">Back to Home</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container section">
+        <div class="product-grid">
+            <div class="card" style="padding: 0; overflow: hidden;">
+                <div id="product-image"
+                    style="aspect-ratio: 1; background: #EEE; display: flex; align-items: center; justify-content: center;">
+                    <span class="serif-italic" style="font-size: 2rem;">Loading...</span>
+                </div>
+            </div>
+
+            <div>
+                <p class="brand-accent">Collection Piece</p>
+                <h1 id="product-name" style="font-size: 2.5rem; margin-bottom: 8px;">Product Name</h1>
+                <p id="product-price" class="serif-italic"
+                    style="font-size: 1.5rem; border-bottom: 1px solid #EEE; padding-bottom: var(--spacing-sm); margin-bottom: var(--spacing-md);">
+                    ¥0,000</p>
+
+                <div class="mb-lg">
+                    <p class="text-sm mb-sm">Select Color</p>
+                    <div class="color-picker" id="color-picker">
+                        <div class="color-btn active" style="background: #333;" data-color="Black"></div>
+                        <div class="color-btn" style="background: #FFF; border: 1px solid #DDD;" data-color="White">
+                        </div>
+                        <div class="color-btn" style="background: #EAEAEA;" data-color="Heather Gray"></div>
+                    </div>
+                </div>
+
+                <div class="mb-lg">
+                    <p class="text-sm mb-sm">Description</p>
+                    <p id="product-desc" style="font-weight: 300;">アイテムの説明文が入ります。</p>
+                </div>
+
+                <button onclick="proceedToCustomize()" class="btn btn-primary"
+                    style="width: 100%;">音を刺繍する（カスタマイズ）</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+        // Init page based on URL params
+        const params = new URLSearchParams(window.location.search);
+        const itemType = params.get('item') || 'tshirt';
+
+        const itemData = {
+            tshirt: { name: 'Tシャツ', price: '¥6,000', desc: '良質なオーガニックコットンを使用した、心地よい一着。あなたの声を、胸元に刻みます。', color: '#FDFDFB' },
+            bib: { name: 'ビブ', price: '¥5,000', desc: '赤ちゃんの初めての言葉、泣き声。大切な一瞬を、柔らかな布に。', color: '#E8D5D5' },
+            pouch: { name: 'ジッパーポーチ', price: '¥5,000', desc: '持ち歩くアート。波形が描く、あなただけのユニークな模様。', color: '#D1E5F4' }
+        };
+
+        const data = itemData[itemType];
+        document.getElementById('product-name').innerText = data.name;
+        document.getElementById('product-price').innerText = data.price;
+        document.getElementById('product-desc').innerText = data.desc;
+        document.getElementById('product-image').style.backgroundColor = data.color;
+        document.getElementById('product-image').innerHTML = `<span class="serif-italic" style="font-size: 2rem;">${data.name}</span>`;
+
+        function proceedToCustomize() {
+            localStorage.setItem('selectedItem', JSON.stringify({
+                type: itemType,
+                name: data.name,
+                price: data.price,
+                color: document.querySelector('.color-btn.active').dataset.color
+            }));
+            window.location.href = 'customize.html';
+        }
+
+        // Simple color picker logic
+        document.querySelectorAll('.color-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+    </script>
+</body>
+
+</html>
