@@ -131,55 +131,58 @@
         </div>
     </header>
 
-    <main class="container section">
-        <div class="product-grid">
-            <!-- Image Slider -->
-            <div class="slider-container card" style="padding: 0;">
-                <div class="slider-track" id="slider-track">
-                    <!-- Slides will be injected by JS -->
+    <main class="section">
+        <div class="container">
+            <div class="product-grid">
+                <!-- Image Slider -->
+                <div class="slider-container card" style="padding: 0;">
+                    <div class="slider-track" id="slider-track">
+                        <!-- Slides will be injected by JS -->
+                    </div>
+                    <div class="slider-arrow arrow-prev" id="prev-btn">＜</div>
+                    <div class="slider-arrow arrow-next" id="next-btn">＞</div>
+                    <div class="slider-nav" id="slider-nav">
+                        <!-- Dots will be injected by JS -->
+                    </div>
                 </div>
-                <div class="slider-arrow arrow-prev" id="prev-btn">＜</div>
-                <div class="slider-arrow arrow-next" id="next-btn">＞</div>
-                <div class="slider-nav" id="slider-nav">
-                    <!-- Dots will be injected by JS -->
-                </div>
-            </div>
 
-            <!-- Product Info -->
-            <div>
-                <p class="brand-accent">Collection Piece</p>
-                <h1 id="product-name" style="margin-bottom: 8px;">アイテム名</h1>
-                <p id="product-price" class="serif-font"
-                    style="font-size: 1.5rem; border-bottom: 1px solid #EEE; padding-bottom: var(--spacing-sm); margin-bottom: var(--spacing-md);">
-                    ¥0,000</p>
+                <!-- Product Info -->
+                <div>
+                    <p class="brand-accent">Collection Piece</p>
+                    <h1 id="product-name" style="margin-bottom: 8px;">アイテム名</h1>
+                    <p id="product-price" class="serif-font"
+                        style="font-size: 1.5rem; border-bottom: 1px solid #EEE; padding-bottom: var(--spacing-sm); margin-bottom: var(--spacing-md);">
+                        ¥0,000</p>
 
-                <div class="mb-lg">
-                    <p class="text-sm">カラーを選択 <span class="text-xs">Color</span></p>
-                    <div class="color-picker-wrapper">
-                        <div class="color-picker" id="color-picker">
-                            <!-- Colors will be injected by JS -->
+                    <div class="mb-lg">
+                        <p class="text-sm">カラーを選択 <span class="text-xs">Color</span></p>
+                        <div class="color-picker-wrapper">
+                            <div class="color-picker" id="color-picker">
+                                <!-- Colors will be injected by JS -->
+                            </div>
+                            <div id="selected-color-name"></div>
                         </div>
-                        <div id="selected-color-name"></div>
                     </div>
-                </div>
 
-                <div class="mb-lg" id="size-selector-container">
-                    <p class="text-sm mb-sm">サイズを選択 <span class="text-xs">Size</span></p>
-                    <div class="size-picker" id="size-picker">
-                        <!-- Sizes will be injected by JS -->
+                    <div class="mb-lg" id="size-selector-container">
+                        <p class="text-sm mb-sm">サイズを選択 <span class="text-xs">Size</span></p>
+                        <div class="size-picker" id="size-picker">
+                            <!-- Sizes will be injected by JS -->
+                        </div>
                     </div>
-                </div>
 
-                <div class="mb-lg">
-                    <p class="text-sm mb-sm">商品説明 <span class="text-xs">Description</span></p>
-                    <p id="product-desc" style="font-weight: 300; font-size: 0.95rem;"></p>
-                </div>
+                    <div class="mb-lg">
+                        <p class="text-sm mb-sm">商品説明 <span class="text-xs">Description</span></p>
+                        <p id="product-desc" style="font-weight: 300; font-size: 0.95rem;"></p>
+                    </div>
 
-                <div id="product-specs" class="mb-lg">
-                    <!-- Specs will be injected by JS -->
-                </div>
+                    <div id="product-specs" class="mb-lg">
+                        <!-- Specs will be injected by JS -->
+                    </div>
 
-                <button onclick="proceedToCustomize()" class="btn btn-primary" style="width: 100%;">このアイテムに刺繍する</button>
+                    <button onclick="proceedToCustomize()" class="btn btn-primary"
+                        style="width: 100%;">このアイテムに刺繍する</button>
+                </div>
             </div>
         </div>
     </main>
