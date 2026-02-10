@@ -316,37 +316,43 @@ header {
     right: 16px;
 }
 
-/* AI Animation - Linspace Sampling Waveform Motif */
+/* AI Animation - Jagged Line Waveform Motif */
 .waveform-container {
-    height: 120px;
+    height: 160px;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 6px;
+    position: relative;
+    overflow: hidden;
 }
 
-.wave-bar {
-    width: 2px;
-    background-color: var(--amber-gold);
-    border-radius: 1px;
+.jagged-svg {
+    width: 100%;
+    height: 100%;
+}
+
+.jagged-line {
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: d 0.1s linear;
+}
+
+.line-1 {
+    stroke: var(--amber-gold);
+    opacity: 0.8;
+}
+
+.line-2 {
+    stroke: var(--air-blue);
     opacity: 0.6;
 }
 
-/* Sinusoidal Motion with staggered delays */
-@keyframes linspace-motion {
-
-    0%,
-    100% {
-        height: 20px;
-        opacity: 0.2;
-        transform: translateY(0);
-    }
-
-    50% {
-        height: 80px;
-        opacity: 0.8;
-        transform: translateY(-5px);
-    }
+.line-3 {
+    stroke: var(--dusty-rose);
+    opacity: 0.6;
 }
 
 .mt-lg {
