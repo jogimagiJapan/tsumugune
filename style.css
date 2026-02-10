@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&family=Playfair+Display:ital,wght@1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500&family=Playfair+Display:wght@400;700&display=swap');
 
 :root {
     /* Brand Colors */
@@ -9,18 +9,18 @@
     --amber-gold: #D4AF37;
     --text-main: #2C2C2C;
     --text-muted: #7A7A7A;
-    
+
     /* Typography */
     --font-serif: 'Playfair Display', serif;
     --font-sans: 'Noto Sans JP', sans-serif;
-    
+
     /* Rhythm & Space */
     --spacing-xs: 8px;
     --spacing-sm: 16px;
     --spacing-md: 32px;
     --spacing-lg: 64px;
     --spacing-xl: 128px;
-    
+
     /* Visual Effects */
     --radius: 16px;
     --shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
@@ -42,22 +42,36 @@ body {
     -webkit-font-smoothing: antialiased;
 }
 
-/* Typography Helpers */
-h1, h2, h3, .serif-italic {
+/* Typography Helpers - NO ITALICS */
+h1,
+h2,
+h3,
+.serif-font {
     font-family: var(--font-serif);
-    font-style: italic;
+    font-style: normal;
+    /* Forbidden */
     font-weight: 400;
 }
 
 .brand-accent {
     color: var(--amber-gold);
     font-family: var(--font-serif);
-    font-style: italic;
     letter-spacing: 0.15em;
 }
 
-.text-sm { font-size: 0.875rem; color: var(--text-muted); }
-.text-center { text-align: center; }
+.text-sm {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+}
+
+.text-xs {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+}
+
+.text-center {
+    text-align: center;
+}
 
 /* Layout Components */
 .container {
@@ -87,7 +101,6 @@ header {
 
 .logo {
     font-family: var(--font-serif);
-    font-style: italic;
     font-size: 1.5rem;
     text-decoration: none;
     color: var(--text-main);
@@ -112,7 +125,8 @@ header {
     transition: var(--transition);
 }
 
-.card:hover {
+/* Hover effect only for pages where it is appropriate (Landing) */
+.card-hoverable:hover {
     transform: translateY(-5px);
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.04);
 }
@@ -128,6 +142,7 @@ header {
     cursor: pointer;
     transition: var(--transition);
     border: none;
+    text-align: center;
 }
 
 .btn-primary {
@@ -144,6 +159,54 @@ header {
     background-color: transparent;
     border: 1px solid var(--text-main);
     color: var(--text-main);
+}
+
+/* Carousel/Slider Styles */
+.slider-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 12px;
+}
+
+.slider-track {
+    display: flex;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 100%;
+}
+
+.slider-slide {
+    flex: 0 0 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.slider-nav {
+    position: absolute;
+    bottom: var(--spacing-sm);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 8px;
+    z-index: 10;
+}
+
+.slider-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.slider-dot.active {
+    background: var(--text-main);
+    width: 24px;
+    border-radius: 4px;
 }
 
 /* AI Animation */
@@ -163,10 +226,28 @@ header {
 }
 
 @keyframes wave-motion {
-    0%, 100% { height: 10px; opacity: 0.3; }
-    50% { height: 60px; opacity: 1; }
+
+    0%,
+    100% {
+        height: 10px;
+        opacity: 0.3;
+    }
+
+    50% {
+        height: 60px;
+        opacity: 1;
+    }
 }
 
-/* Utility Class for White Space */
-.mt-lg { margin-top: var(--spacing-lg); }
-.mb-lg { margin-bottom: var(--spacing-lg); }
+/* Utility classes */
+.mt-lg {
+    margin-top: var(--spacing-lg);
+}
+
+.mb-lg {
+    margin-bottom: var(--spacing-lg);
+}
+
+.mb-sm {
+    margin-bottom: var(--spacing-sm);
+}

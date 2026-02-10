@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Customize Your Sound | tsumugune</title>
+    <title>音を解析する | tsumugune</title>
     <link rel="stylesheet" href="style.css">
     <style>
         .upload-area {
@@ -13,14 +13,8 @@
             padding: var(--spacing-lg);
             text-align: center;
             background: #FFF;
-            transition: var(--transition);
-            cursor: pointer;
+            /* Hover removed as requested */
             margin-bottom: var(--spacing-md);
-        }
-
-        .upload-area:hover {
-            border-color: var(--amber-gold);
-            background: #FFFCF5;
         }
 
         #loading-overlay {
@@ -50,23 +44,25 @@
     <main class="container section">
         <div style="max-width: 700px; margin: 0 auto;">
             <p class="brand-accent text-center">Step 02: Transformation</p>
-            <h1 class="text-center mb-lg">音を解析へ。</h1>
+            <h1 class="text-center mb-lg">音を解析へ。 <span class="text-xs">Analysis</span></h1>
 
             <div class="card">
                 <div class="upload-area" id="upload-zone" onclick="simulateUpload()">
                     <div style="font-size: 3rem; margin-bottom: var(--spacing-sm);">🎤</div>
-                    <h3 class="serif-italic">Tap to record or Upload Audio</h3>
+                    <h3 class="serif-font">音声を入力してください</h3>
                     <p class="text-sm">あなたの声を、波形のアートへ変換します</p>
                 </div>
 
                 <div class="mb-lg">
-                    <p class="text-sm mb-sm">Embroidery Text (Max 12 chars)</p>
-                    <input type="text" id="emb-text" placeholder="NAME / DATE / CASE"
-                        style="width: 100%; padding: 16px; border-radius: 8px; border: 1px solid #EEE; font-family: var(--font-serif); font-style: italic; letter-spacing: 0.1em;">
+                    <p class="text-sm mb-sm">刺繍する文字（最大12文字） <span class="text-xs">Embroidery Text</span></p>
+                    <input type="text" id="emb-text" placeholder="NAME / DATE"
+                        style="width: 100%; padding: 16px; border-radius: 8px; border: 1px solid #EEE; font-family: var(--font-serif); letter-spacing: 0.1em; text-transform: uppercase;">
+                    <p class="text-xs mt-sm" style="color: #999;">※半角英数字大文字、ドット(.)、ハイフン(-)、アンダースコア(_)のみ入力可能です。</p>
                 </div>
 
-                <p class="text-sm mb-lg" style="color: var(--amber-gold); text-align: center;">
-                    ※どの色の糸で届くかは、生成までのお楽しみです。
+                <p class="text-xs mb-lg" style="color: var(--amber-gold); text-align: center; line-height: 1.6;">
+                    あなたの音から、AIが最適な色を導き出します。<br>
+                    どの色の糸で届くかは、お支払い後の生成までのお楽しみ。
                 </p>
 
                 <button onclick="startAnalysis()" class="btn btn-primary" style="width: 100%;"
@@ -75,7 +71,7 @@
         </div>
     </main>
 
-    <!-- DRAMATIC LOADING OVERLAY -->
+    <!-- LOADING OVERLAY -->
     <div id="loading-overlay">
         <div class="waveform-container mb-lg">
             <div class="wave-bar" style="animation-delay: 0.1s; height: 30px;"></div>
@@ -85,26 +81,39 @@
             <div class="wave-bar" style="animation-delay: 0.5s; height: 40px;"></div>
             <div class="wave-bar" style="animation-delay: 0.6s; height: 70px;"></div>
         </div>
-        <h2 class="serif-italic">音を解析しています...</h2>
+        <h2 class="serif-font">音を解析しています...</h2>
         <p class="text-sm mt-lg">AIが感情とピッチを抽出し、<br>最適な波形を描いています。</p>
     </div>
 
     <script src="script.js"></script>
     <script>
+        const input = document.getElementById('emb-text');
+
+        // Strong validation & sanitization
+        input.addEventListener('input', (e) => {
+            let val = e.target.value.toUpperCase();
+            // Allow only A-Z, 0-9, ., -, _
+            val = val.replace(/[^A-Z0-9.\-_]/g, '');
+            if (val.length > 12) val = val.substring(0, 12);
+            e.target.value = val;
+        });
+
         function simulateUpload() {
             document.getElementById('upload-zone').style.borderColor = 'var(--amber-gold)';
-            document.getElementById('upload-zone').innerHTML = '<h3>✓ Audio Captured</h3><p class="text-sm">Ready for analysis</p>';
+            document.getElementById('upload-zone').style.backgroundColor = '#FFFCF5';
+            document.getElementById('upload-zone').innerHTML = '<h3>✓ 音声を読み込みました</h3><p class="text-sm">解析の準備が整いました</p>';
+            window.audioCaptured = true;
         }
 
         function startAnalysis() {
-            const text = document.getElementById('emb-text').value;
-            if (!text) { alert('刺繍する文字を入力してください'); return; }
+            if (!window.audioCaptured) { alert('音声を先に入力してください'); return; }
+            if (!input.value) { alert('刺繍する文字を入力してください'); return; }
 
             document.getElementById('loading-overlay').style.display = 'flex';
 
             // Generate mock result data
             const resultData = {
-                text: text,
+                text: input.value,
                 waveId: Math.floor(Math.random() * 1000),
                 threadColor: ['Amber Gold', 'Air Blue', 'Dusty Rose'][Math.floor(Math.random() * 3)]
             };
@@ -112,7 +121,7 @@
 
             setTimeout(() => {
                 window.location.href = 'result.html';
-            }, 3500); // 3.5s drama pause
+            }, 3000);
         }
     </script>
 </body>

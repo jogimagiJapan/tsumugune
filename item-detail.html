@@ -4,12 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Item Detail | tsumugune</title>
+    <title>商品詳細 | tsumugune</title>
     <link rel="stylesheet" href="style.css">
     <style>
         .product-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1.2fr 1fr;
             gap: var(--spacing-lg);
             align-items: start;
         }
@@ -18,6 +18,45 @@
             .product-grid {
                 grid-template-columns: 1fr;
             }
+        }
+
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            margin-top: var(--spacing-sm);
+        }
+
+        .info-table th,
+        .info-table td {
+            text-align: left;
+            padding: 8px 0;
+            border-bottom: 1px solid #F0F0F0;
+        }
+
+        .info-table th {
+            font-weight: 500;
+            color: var(--text-muted);
+            width: 100px;
+        }
+
+        .size-chart {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8rem;
+            margin-top: var(--spacing-sm);
+            text-align: center;
+        }
+
+        .size-chart th,
+        .size-chart td {
+            padding: 8px;
+            border: 1px solid #F0F0F0;
+        }
+
+        .size-chart th {
+            background: #FAFAFA;
+            font-weight: 500;
         }
 
         .color-picker {
@@ -31,13 +70,50 @@
             height: 32px;
             border-radius: 50%;
             cursor: pointer;
-            border: 2px solid transparent;
+            border: 2px solid #EEE;
             transition: var(--transition);
+            position: relative;
         }
 
         .color-btn.active {
             border-color: var(--text-main);
             transform: scale(1.1);
+        }
+
+        .color-btn::after {
+            content: attr(data-name);
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 10px;
+            white-space: nowrap;
+            display: none;
+        }
+
+        .color-btn:hover::after {
+            display: block;
+        }
+
+        .size-picker {
+            display: flex;
+            gap: 8px;
+            margin-top: var(--spacing-sm);
+        }
+
+        .size-btn {
+            padding: 8px 16px;
+            border: 1px solid #EEE;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: var(--transition);
+        }
+
+        .size-btn.active {
+            background: var(--text-main);
+            color: #FFF;
+            border-color: var(--text-main);
         }
     </style>
 </head>
@@ -47,40 +123,52 @@
         <div class="container nav">
             <a href="index.html" class="logo">tsumugune</a>
             <nav class="nav-links">
-                <a href="index.html">Back to Home</a>
+                <a href="index.html">トップページ <span class="text-xs">Top</span></a>
             </nav>
         </div>
     </header>
 
     <main class="container section">
         <div class="product-grid">
-            <div class="card" style="padding: 0; overflow: hidden;">
-                <div id="product-image"
-                    style="aspect-ratio: 1; background: #EEE; display: flex; align-items: center; justify-content: center;">
-                    <span class="serif-italic" style="font-size: 2rem;">Loading...</span>
+            <!-- Image Slider -->
+            <div class="slider-container card" style="padding: 0;">
+                <div class="slider-track" id="slider-track">
+                    <!-- Slides will be injected by JS -->
+                </div>
+                <div class="slider-nav" id="slider-nav">
+                    <!-- Dots will be injected by JS -->
                 </div>
             </div>
 
+            <!-- Product Info -->
             <div>
                 <p class="brand-accent">Collection Piece</p>
-                <h1 id="product-name" style="font-size: 2.5rem; margin-bottom: 8px;">Product Name</h1>
-                <p id="product-price" class="serif-italic"
+                <h1 id="product-name" style="font-size: 2.2rem; margin-bottom: 8px;">アイテム名</h1>
+                <p id="product-price" class="serif-font"
                     style="font-size: 1.5rem; border-bottom: 1px solid #EEE; padding-bottom: var(--spacing-sm); margin-bottom: var(--spacing-md);">
                     ¥0,000</p>
 
                 <div class="mb-lg">
-                    <p class="text-sm mb-sm">Select Color</p>
+                    <p class="text-sm mb-sm">カラーを選択 <span class="text-xs">Color</span></p>
                     <div class="color-picker" id="color-picker">
-                        <div class="color-btn active" style="background: #333;" data-color="Black"></div>
-                        <div class="color-btn" style="background: #FFF; border: 1px solid #DDD;" data-color="White">
-                        </div>
-                        <div class="color-btn" style="background: #EAEAEA;" data-color="Heather Gray"></div>
+                        <!-- Colors will be injected by JS -->
+                    </div>
+                </div>
+
+                <div class="mb-lg" id="size-selector-container">
+                    <p class="text-sm mb-sm">サイズを選択 <span class="text-xs">Size</span></p>
+                    <div class="size-picker" id="size-picker">
+                        <!-- Sizes will be injected by JS -->
                     </div>
                 </div>
 
                 <div class="mb-lg">
-                    <p class="text-sm mb-sm">Description</p>
-                    <p id="product-desc" style="font-weight: 300;">アイテムの説明文が入ります。</p>
+                    <p class="text-sm mb-sm">商品説明 <span class="text-xs">Description</span></p>
+                    <p id="product-desc" style="font-weight: 300; font-size: 0.95rem;"></p>
+                </div>
+
+                <div id="product-specs" class="mb-lg">
+                    <!-- Specs will be injected by JS -->
                 </div>
 
                 <button onclick="proceedToCustomize()" class="btn btn-primary"
@@ -91,40 +179,174 @@
 
     <script src="script.js"></script>
     <script>
-        // Init page based on URL params
         const params = new URLSearchParams(window.location.search);
         const itemType = params.get('item') || 'tshirt';
 
         const itemData = {
-            tshirt: { name: 'Tシャツ', price: '¥6,000', desc: '良質なオーガニックコットンを使用した、心地よい一着。あなたの声を、胸元に刻みます。', color: '#FDFDFB' },
-            bib: { name: 'ビブ', price: '¥5,000', desc: '赤ちゃんの初めての言葉、泣き声。大切な一瞬を、柔らかな布に。', color: '#E8D5D5' },
-            pouch: { name: 'ジッパーポーチ', price: '¥5,000', desc: '持ち歩くアート。波形が描く、あなただけのユニークな模様。', color: '#D1E5F4' }
+            tshirt: {
+                name: '6.2オンス プレミアム Tシャツ',
+                engName: 'T-shirt',
+                price: '¥6,000',
+                desc: '時が経つほどに愛着がわく、究極の一枚。素材から縫製まで妥協なく仕上げたハイグレードモデル。毛羽立ちを抑える「コーマ糸」と強固な「ダブルステッチ」を採用し、何度洗っても型崩れしないタフさを実現しました。日常のなかに、色褪せない記憶をまとう贅沢を。',
+                colors: [{ name: 'ホワイト', code: '#FFF' }],
+                sizes: ['S', 'M', 'L', 'XL'],
+                specs: {
+                    '素材': '基本：綿 100％',
+                    '生地': '天竺編み（コーマ糸）',
+                    '備考': '丸胴仕様'
+                },
+                chart: {
+                    headers: ['サイズ', '身丈', '身幅', '肩幅', '袖丈'],
+                    rows: [
+                        ['S', '63', '47', '42', '18'],
+                        ['M', '68', '52', '46', '22'],
+                        ['L', '72', '55', '50', '22'],
+                        ['XL', '75', '60', '55', '23']
+                    ]
+                },
+                images: ['#FDFDFB', '#FAFAFA', '#F5F5F5']
+            },
+            bib: {
+                name: 'ビブ',
+                engName: 'Bib',
+                price: '¥5,000',
+                desc: '赤ちゃんの「今」を、一番近くで見守る。10.0オンスの極厚パイル生地が生む、圧倒的な安心感。吸水性に優れ、元気な赤ちゃんの日常をしっかりサポートします。初めての言葉や産声の波形を、毎日触れるやわらかな質感とともに残しませんか。',
+                colors: [{ name: 'ホワイト', code: '#FFF' }, { name: 'ナチュラル', code: '#F5F5DC' }],
+                sizes: ['F'],
+                specs: {
+                    '素材': '10.0オンス 極厚パイル'
+                },
+                images: ['#E8D5D5', '#F5E6E6']
+            },
+            pouch: {
+                name: 'ジッパーポーチ',
+                engName: 'Pouch',
+                price: '¥5,000',
+                desc: '大切な音を、どこへでも連れて行く。上質なフェアトレードコットンを使用したキャンバスポーチ。たっぷりとしたマチと便利なハンドル付きで、旅行のサブバッグとしても活躍する大容量サイズです。地球にも使う人にも優しい素材が、あなたの特別な波形を包み込みます。',
+                colors: [{ name: 'ナチュラル', code: '#F5F5DC' }],
+                sizes: ['F'],
+                specs: {
+                    '商品サイズ': '約200ｘ150ｘ80mm',
+                    '素材': 'コットン',
+                    '備考': 'ﾌｪｱﾄﾚｰﾄﾞｵｰｶﾞﾆｯｸｺｯﾄﾝ使用､取説付'
+                },
+                images: ['#D1E5F4', '#E6F0F8']
+            },
+            lunchbag: {
+                name: 'ランチバッグ',
+                engName: 'Lunch Bag',
+                price: '¥5,500',
+                desc: '暮らしに寄り添う、頑丈で身軽な相棒。ガシガシ使える頑丈なキャンバス生地が特徴のトートバッグ。しっかり自立する安定感がありながら、使わない時は折りたたんでコンパクトに。ちょっとしたお出かけが、世界にひとつのデザインで特別な時間に変わります。',
+                colors: [{ name: 'ライトグレー', code: '#D3D3D3' }, { name: 'ナチュラル', code: '#F5F5DC' }],
+                sizes: ['F'],
+                specs: {
+                    '素材': '綿 100％',
+                    '生地': 'キャンバス'
+                },
+                chart: {
+                    headers: ['サイズ', '高さ', '幅', '底幅', 'マチ', '持手', '容量'],
+                    rows: [
+                        ['F', '21', '37', '20', '17', '37', '約7L']
+                    ]
+                },
+                images: ['#EEE', '#E0E0E0']
+            }
         };
 
         const data = itemData[itemType];
-        document.getElementById('product-name').innerText = data.name;
+        document.getElementById('product-name').innerHTML = `${data.name} <span class="text-xs" style="font-weight:300;">${data.engName}</span>`;
         document.getElementById('product-price').innerText = data.price;
         document.getElementById('product-desc').innerText = data.desc;
-        document.getElementById('product-image').style.backgroundColor = data.color;
-        document.getElementById('product-image').innerHTML = `<span class="serif-italic" style="font-size: 2rem;">${data.name}</span>`;
+
+        // Injects Slides
+        const track = document.getElementById('slider-track');
+        const nav = document.getElementById('slider-nav');
+        data.images.forEach((img, i) => {
+            const slide = document.createElement('div');
+            slide.className = 'slider-slide';
+            slide.style.backgroundColor = img;
+            slide.innerHTML = `<span class="serif-font" style="font-size: 2rem; color: #999;">${data.engName} Image ${i + 1}</span>`;
+            track.appendChild(slide);
+
+            const dot = document.createElement('div');
+            dot.className = `slider-dot ${i === 0 ? 'active' : ''}`;
+            dot.onclick = () => goToSlide(i);
+            nav.appendChild(dot);
+        });
+
+        let currentSlide = 0;
+        function goToSlide(n) {
+            currentSlide = n;
+            track.style.transform = `translateX(-${n * 100}%)`;
+            document.querySelectorAll('.slider-dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === n);
+            });
+        }
+
+        // Auto-swipe (optional, but requested slide manual control)
+        // Manual control achieved via dots.
+
+        // Injects Colors
+        const colorPicker = document.getElementById('color-picker');
+        data.colors.forEach((c, i) => {
+            const btn = document.createElement('div');
+            btn.className = `color-btn ${i === 0 ? 'active' : ''}`;
+            btn.style.backgroundColor = c.code;
+            btn.dataset.name = c.name;
+            btn.onclick = () => {
+                document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            };
+            colorPicker.appendChild(btn);
+        });
+
+        // Injects Sizes
+        const sizePicker = document.getElementById('size-picker');
+        data.sizes.forEach((s, i) => {
+            const btn = document.createElement('div');
+            btn.className = `size-btn ${i === 0 ? 'active' : ''}`;
+            btn.innerText = s;
+            btn.onclick = () => {
+                document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            };
+            sizePicker.appendChild(btn);
+        });
+
+        // Injects Specs & Chart
+        const specsContainer = document.getElementById('product-specs');
+        let specsHtml = '<table class="info-table">';
+        for (let k in data.specs) {
+            specsHtml += `<tr><th>${k}</th><td>${data.specs[k]}</td></tr>`;
+        }
+        specsHtml += '</table>';
+
+        if (data.chart) {
+            specsHtml += '<table class="size-chart"><thead><tr>';
+            data.chart.headers.forEach(h => specsHtml += `<th>${h}</th>`);
+            specsHtml += '</tr></thead><tbody>';
+            data.chart.rows.forEach(r => {
+                specsHtml += '<tr>';
+                r.forEach(v => specsHtml += `<td>${v}</td>`);
+                specsHtml += '</tr>';
+            });
+            specsHtml += '</tbody></table>';
+        }
+        specsContainer.innerHTML = specsHtml;
 
         function proceedToCustomize() {
+            const selectedColor = document.querySelector('.color-btn.active').dataset.name;
+            const selectedSize = document.querySelector('.size-btn.active') ? document.querySelector('.size-btn.active').innerText : 'F';
+
             localStorage.setItem('selectedItem', JSON.stringify({
                 type: itemType,
                 name: data.name,
                 price: data.price,
-                color: document.querySelector('.color-btn.active').dataset.color
+                color: selectedColor,
+                size: selectedSize
             }));
             window.location.href = 'customize.html';
         }
-
-        // Simple color picker logic
-        document.querySelectorAll('.color-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-            });
-        });
     </script>
 </body>
 
