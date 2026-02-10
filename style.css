@@ -32,9 +32,8 @@
 
 @media (max-width: 768px) {
     :root {
-        --spacing-xl: 64px;
+        --spacing-xl: 48px;
         --container-px: 24px;
-        /* px-6 equivalent approx */
     }
 }
 
@@ -51,6 +50,10 @@ body {
     line-height: 1.8;
     letter-spacing: 0.08em;
     -webkit-font-smoothing: antialiased;
+    /* Kinsoku-shori */
+    line-break: strict;
+    overflow-wrap: break-word;
+    word-break: normal;
 }
 
 /* Typography Helpers - NO ITALICS */
@@ -78,11 +81,11 @@ h3 {
 
 @media (max-width: 768px) {
     h1 {
-        font-size: 2.2rem;
+        font-size: 2rem;
     }
 
     h2 {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
     }
 }
 
@@ -104,6 +107,17 @@ h3 {
 
 .text-center {
     text-align: center;
+}
+
+/* Subtitle for titles */
+.title-sub {
+    font-size: 0.45em;
+    display: block;
+    margin-bottom: 4px;
+    font-family: var(--font-sans);
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
 }
 
 /* Layout Components */
@@ -173,7 +187,6 @@ header {
 
 .card .btn-outline {
     margin-top: auto;
-    /* Aligns button to bottom */
 }
 
 /* Buttons */
@@ -188,6 +201,13 @@ header {
     transition: var(--transition);
     border: none;
     text-align: center;
+}
+
+@media (max-width: 768px) {
+    .btn {
+        padding: 14px 32px;
+        font-size: 0.85rem;
+    }
 }
 
 .btn-primary {
@@ -240,8 +260,8 @@ header {
 }
 
 .slider-dot {
-    width: 8px;
-    height: 8px;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
     background: rgba(0, 0, 0, 0.1);
     cursor: pointer;
@@ -250,11 +270,10 @@ header {
 
 .slider-dot.active {
     background: var(--text-main);
-    width: 24px;
+    width: 18px;
     border-radius: 4px;
 }
 
-/* Arrow Navigation */
 .slider-arrow {
     position: absolute;
     top: 50%;
@@ -325,4 +344,8 @@ header {
 
 .mb-sm {
     margin-bottom: var(--spacing-sm);
+}
+
+.mt-sm {
+    margin-top: var(--spacing-sm);
 }

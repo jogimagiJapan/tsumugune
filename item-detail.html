@@ -12,11 +12,19 @@
             grid-template-columns: 1.2fr 1fr;
             gap: var(--spacing-lg);
             align-items: start;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 1024px) {
+            .product-grid {
+                gap: var(--spacing-md);
+            }
         }
 
         @media (max-width: 768px) {
             .product-grid {
                 grid-template-columns: 1fr;
+                gap: var(--spacing-md);
             }
         }
 
@@ -170,7 +178,7 @@
 
         const itemData = {
             tshirt: {
-                name: '6.2オンス プレミアム Tシャツ',
+                name: '<span class="title-sub">6.2オンス</span>プレミアムTシャツ',
                 engName: 'T-shirt',
                 price: '¥6,000',
                 desc: '時が経つほどに愛着がわく、究極の一枚。素材から縫製まで妥協なく仕上げたハイグレードモデル。毛羽立ちを抑える「コーマ糸」と強固な「ダブルステッチ」を採用し、何度洗っても型崩れしないタフさを実現しました。日常のなかに、色褪せない記憶をまとう贅沢を。',
@@ -302,7 +310,7 @@
             const selectedColor = document.querySelector('.color-btn.active').title;
             const selectedSize = document.querySelector('.size-btn.active') ? document.querySelector('.size-btn.active').innerText : 'F';
             localStorage.setItem('selectedItem', JSON.stringify({
-                type: itemType, name: data.name, price: data.price, color: selectedColor, size: selectedSize
+                type: itemType, name: data.name.replace(/<[^>]*>?/gm, ''), price: data.price, color: selectedColor, size: selectedSize
             }));
             window.location.href = './customize.html';
         }
